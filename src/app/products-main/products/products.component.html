@@ -1,0 +1,30 @@
+<div class="gray-section products-section">
+  
+      <!--<a routerLink="/addnew">Dodaj nowy</a>-->
+  
+      <div *ngIf="!productList || productList.length === 0">Brak produktów w bazie!</div>
+  
+      <table *ngIf="productList!=null && productList.length > 0">
+        <thead>
+        <tr>
+          <th>Nazwa</th>
+          <th>Cena</th>
+          <th>VAT</th>
+          <th>Ilość</th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of productList">
+          <td>{{product.name}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.vat}}</td>
+          <td>{{product.amount}}</td>
+          <td><a [routerLink]="[product.id,'edit']">Zmien ilosc</a></td>
+          <td><button (click)="deleteProductClick(product.id)">Skasuj?</button>
+        </tr>
+        </tbody>
+      </table>
+  </div>
+

@@ -1,0 +1,114 @@
+<div class="gray-section addedit-section">
+  <H1 *ngIf="product.id==0">Dodaj nowy produkt</H1>
+  <H1 *ngIf="product.id>0">Edytuj istniejący produkt</H1>
+
+  <form #form="ngForm" (ngSubmit)="onSubmit()">
+    <table class="tile-description">
+      <tbody>
+        <tr>
+          <td>
+            <label>Nazwa:</label>
+          </td>
+          <td>
+            <div>
+              <input [(ngModel)]="product.name" name="name" #name="ngModel" type="text" placeholder="Name"
+                [disabled]="product.id>0" required minlength="2" maxlength="20" appValidProductName>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+              <div *ngIf="name.errors.required">
+                Name is a required field.
+              </div>
+              <div *ngIf="name.errors.minlength">
+                Name must be at least 2 characters long.
+              </div>
+              <div *ngIf="name.errors.appValidProductName">
+                Name of the product not known. Accepted names: 'Świerk', 'Sosna', 'Brzoza', 'Trawa', 'Chwast', 'Jabłoń', 'Wiśnia', 'Tuja'
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Cena:</label>
+          </td>
+          <td>
+            <div>
+              <input [(ngModel)]="product.price" name="price" #price="ngModel" type="number" placeholder="Price"
+                [disabled]="product.id>0" required appMinValue="1" appMaxValue="1500">
+            </div>
+          </td>
+          <td>
+            <div *ngIf="price.invalid && (price.dirty || price.touched)" class="alert alert-danger">
+              <div *ngIf="price.errors.required">
+                Price is a required field.
+              </div>
+              <div *ngIf="price.errors.appMinValue">
+                Price is too small. Min value is 1.
+              </div>
+              <div *ngIf="price.errors.appMaxValue">
+                Price too high. Max value is 1500.
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>VAT:</label>
+          </td>
+          <td>
+            <div>
+              <select [(ngModel)]="product.vat" name="vat" [disabled]="product.id>0" required>
+                <option value="0">0%</option>
+                <option value="8">8%</option>
+                <option value="23">23%</option>
+              </select>
+            </div>
+          </td>
+          <td>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label>Ilość:</label>
+          </td>
+          <td>
+            <div>
+              <input [(ngModel)]="product.amount" name="amount" #amount="ngModel" type="number" placeholder="Amount"
+                required appMinValue="1" appMaxValue="10000">
+            </div>
+          </td>
+          <td>
+            <div *ngIf="amount.invalid && (amount.dirty || amount.touched)" class="alert alert-danger">
+              <div *ngIf="amount.errors.required">
+                Amount is a required field.
+              </div>
+              <div *ngIf="amount.errors.appMinValue">
+                Amount is too small. Must be >0.
+              </div>
+              <div *ngIf="amount.errors.appMaxValue">
+                Amount is too high. Must be less than 10000.
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <button type="submit" [disabled]="!form.dirty || (form.invalid && (form.dirty || form.touched))">
+              Zapisz</button>
+          </td>
+          <td>
+            <button (click)="goBackToPrevious()">Anuluj</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
